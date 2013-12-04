@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="{{blog_language}}">
+<head>
+  <meta charset="utf-8">
+  <title>{{post_title}} &mdash; {{blog_name}}</title>
+  <meta name="generator" content="Roon.io">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=0">
+  <meta name="twitter:site" content="@roon_app">
+  <meta name="twitter:domain" content="roon.io">
+  <meta name="twitter:app:name:iphone" content="Roon">
+  <meta name="twitter:app:url:iphone" content="roon://open">
+  <meta name="twitter:app:id:iphone" content="634949849">
+  <meta property="og:site_name" content="{{blog_name}}">
+  {{#author_twitter}}
+  <meta property="twitter:creator" content="@{{author_twitter}}">
+  {{/author_twitter}}
+  <link rel="alternate" type="application/atom+xml" href="/feed">
+  <link rel="EditURI" type="application/rsd+xml" title="RSD" href="/_/rsd">
+  <style>a{color:{{blog_accent_color}}}body>header,body.noimage{border-top-color:{{blog_accent_color}}}</style>
+  <meta name="description" content="{{{post_excerpt_html}}}">
+  <link rel="canonical" href="{{post_url}}">
+  <meta property="og:description" content="{{{post_excerpt_html}}}">
+  <meta property="og:title" content="{{post_title}}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{post_url}}">
+<!-- TODO: Published at <meta property="article:published_time" content="2013-11-16T02:20:25Z"> -->
+  <meta name="author" content="{{author_name}}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{{post_title}}">
+  <meta name="twitter:description" content="{{{post_excerpt_html}}}">
+  <!-- TODO: stylesheets -->
+</head>
+<body class="noimage"> <!-- TODO: image -->
+  <article role="main">
+    <header>
+      <a href="http://sam.roon.io/" id="home_link">&#171;</a>
+      <div class="meta">
+        <!-- TODO: post_published_at <time datetime="2013-11-16T02:20:25Z">November 16, 2013</time> -->
+        <!-- TODO: post_read_time <span class="count">1 minute read</span> -->
+      </div>
+      <h1>{{post_title}}</h1>
+    </header>
+    <div class="text">{{post_content}}</div>
+    <menu>
+      <iframe src="/_/like_button?post_id={{post_id}}" frameborder="0" scrolling="no" title="Like {{post_title}}" width="70" height="85"></iframe>
+      <a href="" id="btn_share" class="btn" title="Share">
+        <span aria-hidden="true" data-icon="S"></span>
+        <strong>Share</strong>
+      </a>
+      <!-- <a href="https://twitter.com/intent/tweet?related=roon_app&amp;text=%40soffes%20Interesting%20post%21%20%E2%80%94%20http%3A%2F%2Fsam.roon.io%2Ftin-can" id="btn_comment" class="btn" target="_blank
+      ">
+        <span aria-hidden="true" data-icon="C"></span> Comment on Twitter
+      </a> -->
+    </menu>
+    <footer role="contentinfo">
+      <div class="vcard">
+        <a href="/feed" id="btn_feed" class="btn" title="Feed" target="_blank">
+          <span aria-hidden="true" data-icon=")"></span>
+          <strong>Feed</strong>
+        </a>
+        <a href="/" class="photo" rel="home"><img src="{{author_avatar_url}}" alt="{{author_name}}"></a>
+        <div class="details">
+          <h4><a href="/" class="url n" rel="home"><span class="given-name">{{author_given_name}}</span> <span class="family-name">{{author_family_name}}</span></a></h4>
+          {{#author_twitter}}
+          <a href="https://twitter.com/{{author_twitter}}">@{{author_twitter}}</a>
+          {{/author_twitter}}
+          <br>
+
+          {{#author_website}}
+          <!-- TODO: Display URL -->
+          <a href="{{author_website}}" rel="external nofollow">{{author_website}}</a>
+          {{/author_website}}
+        </div>
+      </div>
+      <div id="user_bio">
+        <div class="inner">{{{author_bio_html}}}</div>
+      </div>
+    </footer>
+  </article>
+
+  <div id="post_nav">
+    <nav role="navigation">
+      {{#next_post_url}}
+      <a href="{{next_post_url}}" id="post_next" title="Next Post">
+        <span aria-hidden="true" data-icon=">"></span>
+        {{next_post_title}}
+      </a>
+      {{/next_post_url}}
+      {{#previous_post_url}}
+      <a href="{{previous_post_url}}" id="post_prev" title="Previous Post">
+        {{previous_post_title}}
+        <span aria-hidden="true" data-icon=">"></span>
+      </a>
+      {{/previous_post_url}}
+    </nav>
+  </div>
+
+  <a href="https://roon.io/" id="roon_badge">
+    <span><em>Roon</em></span>
+  </a>
+  <!-- TODO: javascripts -->
+</body>
+</html>
