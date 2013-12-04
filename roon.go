@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/codegangsta/martini"
 	"github.com/hoisie/mustache"
 	"net/http"
-	"os"
 	"strings"
 )
 
@@ -96,33 +96,26 @@ func (p Post) SanitizedExcerptHTML() string {
 	return output
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	slug := r.URL.Path[1:]
-
-	if slug == "" {
-		fmt.Fprintf(w, "index")
-		return
-	}
-
-	post, error := Get("sam", slug)
-	if error != nil {
-		fmt.Println(error)
-		fmt.Fprintf(w, "error")
-		return
-	}
-
-	output := mustache.RenderFile("templates/post.html.mustache", post.Mustache())
-	fmt.Fprintf(w, output)
-}
-
 func main() {
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
-	}
+	m := martini.Classic()
+  m.Get("/", func() string {
+    return "Index"
+  })
 
-	http.HandleFunc("/", handler)
-	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
+  m.Get("/:slug", func(params martini.Params) string {
+		post, error := Get("sam", params["slug"])
+		if error != nil {
+			return "error"
+		}
+
+		return mustache.RenderFile("templates/post.html.mustache", post.Mustache())
+	})
+
+	m.NotFound(func() {
+	  "Not found."
+	})
+
+  m.Run()
 }
 
 func Get(blogSubdomain string, postSlug string) (*Post, error) {
