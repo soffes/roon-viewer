@@ -8,6 +8,7 @@ import (
     "net/http"
     "strings"
     "bytes"
+    "os"
 )
 
 type Blog struct {
@@ -33,8 +34,8 @@ func (a Author) Name() string {
 
 type Post struct {
     Title string
-    Content string `json:"content_html"`
-    Excerpt string `json:"excerpt_html"`
+    ContentHTML string `json:"content_html"`
+    ExcerptHTML string `json:"excerpt_html"`
     URL string
     ID int
     Blog Blog
@@ -44,9 +45,9 @@ type Post struct {
 func (p Post) Mustache() map[string]string {
     return map[string]string {
         "post_title": p.Title,
-        "post_excerpt_html": p.SanitizedExcerpt(),
+        "post_excerpt_html": p.SanitizedExcerptHTML(),
         "post_url": p.URL,
-        "post_content": p.Content,
+        "post_content_html": p.ContentHTML,
         "author_name": p.Author.Name(),
         "author_given_name": p.Author.GivenName,
         "author_family_name": p.Author.FamilyName,
@@ -56,9 +57,9 @@ func (p Post) Mustache() map[string]string {
     }
 }
 
-func (p Post) SanitizedExcerpt() string {
+func (p Post) SanitizedExcerptHTML() string {
     output := ""
-    s := p.Excerpt
+    s := p.ExcerptHTML
 
     // Shortcut strings with no tags in them
     if !strings.ContainsAny(s, "<>") {
@@ -95,10 +96,33 @@ func (p Post) SanitizedExcerpt() string {
     return output
 }
 
-func main() {
-    post, _ := Get("sam", "onward")
+func handler(w http.ResponseWriter, r *http.Request) {
+    slug := r.URL.Path[1:]
+
+    if slug == "" {
+        fmt.Fprintf(w, "index")
+        return
+    }
+
+    post, error := Get("sam", slug)
+    if error != nil {
+        fmt.Println(error)
+        fmt.Fprintf(w, "error")
+        return
+    }
+
     output := mustache.RenderFile("templates/post.html.mustache", post.Mustache())
-    fmt.Println(output)
+    fmt.Fprintf(w, output)
+}
+
+func main() {
+    port := os.Getenv("PORT")
+    if port == "" {
+        port = "3000"
+    }
+
+    http.HandleFunc("/", handler)
+    http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
 
 func Get(blogSubdomain string, postSlug string) (*Post, error) {
