@@ -6,6 +6,6 @@ Work in progress. Nothing really works yet.
 
 ## Useage
 
-    $ go install github.com/soffes/roon
-    $ roon
-    $ open http://localhost:3000/onward
+    $ go install github.com/soffes/roon-viewer
+    $ roon-viewer
+    $ open http://localhost:3000/introducing-quesadilla
