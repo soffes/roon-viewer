@@ -4,7 +4,7 @@
 
 Work in progress. Nothing really works yet.
 
-## Useage
+## Usage
 
     $ go install github.com/soffes/roon-viewer
     $ roon-viewer
